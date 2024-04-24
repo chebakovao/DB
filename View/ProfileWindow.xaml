@@ -1,0 +1,175 @@
+﻿<Window x:Class="DBChebakov.View.ProfileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DBChebakov"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        xmlns:VM="clr-namespace:DBChebakov.ViewModel"
+        Title="{Binding Profile.Id}" ResizeMode="NoResize" Name="Main" 
+        Height="500" Width="800"
+        FontSize="14"
+        WindowStartupLocation="CenterOwner">
+
+    <Grid RenderTransformOrigin="0.483,0.504">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Offset="0" Color="#363636"/>
+                
+                <GradientStop Offset="1" Color="#1E1E1E"/>
+                
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="363*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="435*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#363636"/>
+                    <!-- Dark Grey -->
+                    <GradientStop Offset="1" Color="#1E1E1E"/>
+                    <!-- Darker Grey -->
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Label Foreground="white">Точки профиля:</Label>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ListView VerticalAlignment="Stretch" ItemsSource="{Binding Profile.Points}" SelectedItem="{Binding SelectedPoint}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="X: "/>
+                                    <TextBox MinWidth="40" Text="{Binding X}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.SavePointCommand, ElementName=Main}" CommandParameter="{Binding}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <Label Content=" Y: "/>
+                                    <TextBox MinWidth="40" Text="{Binding Y}" >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.SavePointCommand, ElementName=Main}" CommandParameter="{Binding}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Command="{Binding AddPointCommand}" Grid.ColumnSpan="2" Margin="0,0,60,0" Background="#444444" Foreground="White" BorderThickness="0">Добавить</Button>
+
+                    <Button Command="{Binding DeletePointCommand}" Grid.Column="1" Grid.ColumnSpan="2" Margin="61,0,0,0" Background="#9999" Foreground="White" BorderThickness="1" BorderBrush="#444444">Удалить</Button>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0" Margin="0,242,0,0" Grid.RowSpan="2">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#363636"/>
+                    <!-- Dark Grey -->
+                    <GradientStop Offset="1" Color="#1E1E1E"/>
+                    <!-- Darker Grey -->
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Label Foreground="White">Пикеты:</Label>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <ListView VerticalAlignment="Stretch" ItemsSource="{Binding Profile.Pickets}" SelectedItem="{Binding SelectedPicket}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Command="{Binding DataContext.OpenPicketCommand, ElementName=Main}" CommandParameter="{Binding}" Content="Открыть"/>
+                                    <Label Content="X: "/>
+                                    <TextBox MinWidth="40" Text="{Binding X}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.SavePicketCommand, ElementName=Main}" CommandParameter="{Binding}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <Label Content=" Y: "/>
+                                    <TextBox MinWidth="40" Text="{Binding Y}" >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="LostFocus">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.SavePicketCommand, ElementName=Main}" CommandParameter="{Binding}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollViewer>
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Command="{Binding AddPicketCommand}" Grid.ColumnSpan="2" Margin="0,0,60,0" Background="#444444" Foreground="White" BorderThickness="0">Добавить</Button>
+
+                    <Button Command="{Binding DeletePicketCommand}" Grid.Column="1" Grid.ColumnSpan="2" Margin="61,0,0,0" Background="#9999" Foreground="White" BorderThickness="1" BorderBrush="#444444">Удалить</Button>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid Grid.RowSpan="3" Grid.Column="2">
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#363636"/>
+                    <!-- Dark Grey -->
+                    <GradientStop Offset="1" Color="#1E1E1E"/>
+                    <!-- Darker Grey -->
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="2" Foreground="White">Отображение:</Label>
+            <ScrollViewer Grid.Row="0" Grid.RowSpan="2" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Margin="0,35,0,0" Background="white">
+                <Image Source="{Binding Image}" Stretch="Uniform" Margin="4">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseWheel">
+                            <i:InvokeCommandAction Command="{Binding ZoomCommand}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Image>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>
